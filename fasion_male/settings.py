@@ -27,14 +27,21 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # EXTERNAL APPS
     'django_render_partial',
+    'sweetify',
 
     #INTERNAL APPS
     'home',
     'product',
-    'user'
-
-
+    'user',
 ]
+
+########   Send Email Configuration From Mailtrap    ****************************
+
+EMAIL_HOST = LS.EMAIL_HOST
+EMAIL_HOST_USER = LS.EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = LS.EMAIL_HOST_PASSWORD
+EMAIL_PORT = LS.EMAIL_PORT
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -70,6 +77,7 @@ WSGI_APPLICATION = 'fasion_male.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+AUTH_USER_MODEL = 'user.User'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -115,6 +123,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
+
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [

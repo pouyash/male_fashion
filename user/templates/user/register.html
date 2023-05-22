@@ -1,0 +1,17 @@
+{% extends 'index.html' %}
+{% block title %}
+Register
+{% endblock %}
+{% block context %}
+    <div class="container" style="padding: 20px">
+        <div class="row justify-content-center">
+            <div class="col-md-6 align-self-center">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {{ forms.as_div }}
+                    <input style="margin: 10px" type="submit" value="register" class="btn btn-success">
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

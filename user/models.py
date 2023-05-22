@@ -34,6 +34,7 @@ class UserManager(BaseUserManager):
         user.is_staff = True
         user.is_active = True
         user.is_superadmin = True
+        user.role = 1
         user.save(using=self._db)
         return user
 
@@ -51,7 +52,7 @@ class User(AbstractBaseUser):
     username = models.CharField(max_length=50, unique=True)
     phone_number = models.CharField(max_length=13, blank=True, null=True)
     role = models.PositiveSmallIntegerField(choices=ROLE_CHOICE, blank=True, null=True)
-
+    activate_code = models.TextField(blank=True,null=True)
 
     date_joined = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(auto_now_add=True)
@@ -83,11 +84,9 @@ class User(AbstractBaseUser):
             return 'Customer'
 
 
-
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_profile',null=True, blank=True)
     active = models.BooleanField(default=False)
-    activate_code = models.TextField(default=get_random_string(72)+str(time.time())[-10])
     profile_picture = models.ImageField(upload_to='user/profile_picture', null=True, blank=True)
     cover_photo = models.ImageField(upload_to='user/cover_photo', null=True, blank=True)
     address_line_1 = models.CharField(max_length=50, blank=True, null=True)

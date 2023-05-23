@@ -1,8 +1,8 @@
-from django.db.models import QuerySet
+from django.db.models import QuerySet, Count
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 
-from product.models import Product
+from product.models import Product, Tag, Category, Brand
 
 
 class ProductView(ListView):
@@ -12,6 +12,25 @@ class ProductView(ListView):
     paginate_by = 2
     ordering = '-id'
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(ProductView, self).get_context_data()
+        context['tags'] = Tag.objects.all()
+        context['categories'] = Category.objects.all().annotate(count_product=Count('product'))
+        context['brands'] = Brand.objects.all()
+        return context
+
+    def get_queryset(self):
+        url = self.request.path
+        slug = self.kwargs.get('slug')
+        qs:QuerySet = super(ProductView, self).get_queryset()
+        if 'category' in url:
+            qs = qs.filter(category__slug=slug)
+        elif 'brand' in url:
+            qs = qs.filter(brand__slug=slug)
+        elif 'tag' in url:
+            qs = qs.filter(tag__slug=slug)
+
+        return qs
 
 
 class ProductDetail(DetailView):

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.admin import register
 
-from product.models import Category, Brand, Product
+from product.models import Category, Brand, Product, Tag
 
 
 @register(Category)
@@ -26,4 +26,11 @@ class ProductAdmin(admin.ModelAdmin):
     list_editable = ('is_active',)
     prepopulated_fields = {
         'slug': ('title',)
+    }
+
+@register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    list_display = ['slug','is_active','title']
+    prepopulated_fields = {
+        'slug' : ('title',)
     }

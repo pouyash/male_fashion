@@ -69,3 +69,22 @@ class Product(models.Model):
     ):
         self.slug = slugify(self.title)
         super(Product, self).save()
+
+
+class Tag(models.Model):
+    title = models.CharField(max_length=300)
+    slug = models.SlugField(max_length=400)
+    products = models.ManyToManyField(Product)
+    is_active = models.BooleanField(default=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.slug
+
+    def save(
+        self, force_insert=False, force_update=False, using=None, update_fields=None
+    ):
+        self.slug = slugify(self.title)
+        super(Tag, self).save()

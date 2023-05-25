@@ -83,6 +83,8 @@ class User(AbstractBaseUser):
         elif self.role == 2:
             return 'Customer'
 
+    def get_full_name(self):
+        return self.first_name + self.last_name
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_profile',null=True, blank=True)

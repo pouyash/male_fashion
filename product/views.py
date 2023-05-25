@@ -1,4 +1,4 @@
-from django.db.models import QuerySet, Count
+from django.db.models import QuerySet, Count, Q
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 
@@ -39,3 +39,12 @@ class ProductDetail(DetailView):
     context_object_name = 'product'
     slug_url_kwarg = 'slug'
 
+    def get_context_data(self, **kwargs):
+        context = super(ProductDetail, self).get_context_data()
+        product = kwargs.get('object')
+        category = product.category.slug
+        brand = product.brand.slug
+        tag = list(product.tag_set.all())
+        context['product_related'] = Product.objects.filter(Q(tag__in=tag) or Q(category__slug__iexact=category) or Q(brand__slug__iexact=brand)).exclude(id=product.id)
+
+        return context

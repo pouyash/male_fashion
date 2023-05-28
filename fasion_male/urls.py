@@ -10,5 +10,7 @@ urlpatterns = [
     path('user/',include('user.urls')),
     path('shop/',include('product.urls')),
     path('blog/',include('blog.urls')),
+    path('contact-us/',include('contact.urls')),
+    path('captcha/', include('captcha.urls')),
 
-] + static(settings.MEDIA_URL , document_root=settings.MEDIA_ROOT)
+    ] + static(settings.MEDIA_URL , document_root=settings.MEDIA_ROOT)

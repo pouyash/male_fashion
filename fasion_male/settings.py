@@ -28,12 +28,14 @@ INSTALLED_APPS = [
     # EXTERNAL APPS
     'django_render_partial',
     'sweetify',
+    'captcha',
 
     #INTERNAL APPS
     'home',
     'product',
     'user',
     'blog',
+    'contact',
 ]
 
 ########   Send Email Configuration From Mailtrap    ****************************

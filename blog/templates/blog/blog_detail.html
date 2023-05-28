@@ -4,7 +4,7 @@
     blog detail
 {% endblock %}
 {% block context %}
-<section class="blog-hero spad">
+    <section class="blog-hero spad">
         <div class="container">
             <div class="row d-flex justify-content-center">
                 <div class="col-lg-9 text-center">
@@ -13,7 +13,7 @@
                         <ul>
                             <li>{{ blog.user.get_full_name }}</li>
                             <li>{{ blog.created_at }}</li>
-                            <li>8 Comments</li>
+                            <li>{{ count.count }} Comments</li>
                         </ul>
                     </div>
                 </div>
@@ -27,8 +27,8 @@
                 <div class="col-lg-12">
                     <div class="blog__details__pic">
                         {% if blog.image %}
-                        <img src="{{ blog.image.url }}" alt="{{ blog.title }}">
-                            {% else %}
+                            <img src="{{ blog.image.url }}" alt="{{ blog.title }}">
+                        {% else %}
                             <img src="{% static 'img/blog/details/blog-details.jpg' %}" alt="">
                         {% endif %}
                     </div>
@@ -50,19 +50,23 @@
 
                         <div class="blog__details__comment">
                             <h4>Leave A Comment</h4>
-                            <form action="#">
+                            <form action="" method="post">
+                                {% csrf_token %}
                                 <div class="row">
-                                    <div class="col-lg-4 col-md-4">
-                                        <input type="text" placeholder="Name">
+                                    {% if not request.user.is_authenticated %}
+                                    <div class="col-lg-6 col-md-6">
+                                        {{ form.name.label }}
+                                        {{ form.name }}
+                                        {{ form.errors }}
                                     </div>
-                                    <div class="col-lg-4 col-md-4">
-                                        <input type="text" placeholder="Email">
+                                    <div class="col-lg-6 col-md-6">
+                                        {{ form.email.label }}
+                                        {{ form.email }}
+                                        {{ form.errors }}
                                     </div>
-                                    <div class="col-lg-4 col-md-4">
-                                        <input type="text" placeholder="Phone">
-                                    </div>
+                                    {% endif %}
                                     <div class="col-lg-12 text-center">
-                                        <textarea placeholder="Comment"></textarea>
+                                        {{ form.text }}
                                         <button type="submit" class="site-btn">Post Comment</button>
                                     </div>
                                 </div>
@@ -73,4 +77,30 @@
             </div>
         </div>
     </section>
+
+
+    <section style="margin: 10px">
+        <div class="container">
+            {% for comment in comments %}
+            <div class="media border p-3">
+                <img src="{% static 'img/hero/hero-2.jpg' %}" alt="Avatar" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+                <div class="media-body">
+                    <h4>{{ comment.name }}<small><i>{{ comment.created_at }}</i></small></h4>
+                    <p>{{ comment.text }}</p>
+                    {% for child in comment.comment.all %}
+                        <div class="media p-3">
+                        <img src="{% static 'img/hero/hero-1.jpg' %}" alt="Avatar" class="mr-3 mt-3 rounded-circle" style="width:45px;">
+                        <div class="media-body">
+                            <h4>{{ child.name }}<small><i>Posted on {{ child.created_at }}</i></small></h4>
+                            <p>{{ child.text }}</p>
+                        </div>
+                    </div>
+                        {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </section>
+
 {% endblock %}

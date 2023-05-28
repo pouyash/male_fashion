@@ -3,7 +3,7 @@ from django.contrib import admin
 # Register your models here.
 from django.contrib.admin import register
 
-from blog.models import Blog
+from blog.models import Blog, Comment
 
 
 @register(Blog)
@@ -18,3 +18,9 @@ class BlogAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         obj.user = request.user
         obj.save()
+
+
+
+@register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ['name','email','parent','text']

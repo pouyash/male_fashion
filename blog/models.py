@@ -23,3 +23,18 @@ class Blog(models.Model):
         self.slug = slugify(self.title)
         # self.user = kwargs.get('user')
         super(Blog, self).save()
+
+
+class Comment(models.Model):
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name='comment', null=True, blank=True)
+    name = models.CharField(max_length=300)
+    parent = models.ForeignKey('Comment', related_name='comment', on_delete=models.CASCADE, null=True, blank=True)
+    email = models.EmailField()
+    text = models.TextField()
+    is_active = models.BooleanField(default=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.email

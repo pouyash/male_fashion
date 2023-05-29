@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'user',
     'blog',
     'contact',
+    'about',
 ]
 
 ########   Send Email Configuration From Mailtrap    ****************************

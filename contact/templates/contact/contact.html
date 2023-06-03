@@ -9,20 +9,18 @@
                 <div class="col-lg-6 col-md-6">
                     <div class="contact__text">
                         <div class="section-title">
-                            <span>Information</span>
-                            <h2>Contact Us</h2>
-                            <p>As you might expect of a company that began as a high-end interiors contractor, we pay
-                                strict attention.</p>
+                            <span>{{ contact_setting.title_red }}</span>
+                            <h2>{{ contact_setting.title }}</h2>
+                            <p>{{ contact_setting.text }}</p>
                         </div>
                         <ul>
+                            {% for ad in address %}
                             <li>
-                                <h4>America</h4>
-                                <p>195 E Parker Square Dr, Parker, CO 801 <br>+43 982-314-0958</p>
+                                <h4>{{ ad.title }}</h4>
+                                <p>{{ ad.address }}
+                                    <br>{{ ad.phone }}</p>
                             </li>
-                            <li>
-                                <h4>France</h4>
-                                <p>109 Avenue Léon, 63 Clermont-Ferrand <br>+12 345-423-9893</p>
-                            </li>
+                            {% endfor %}
                         </ul>
                     </div>
                 </div>

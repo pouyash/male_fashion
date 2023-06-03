@@ -6,14 +6,18 @@ from django.shortcuts import render
 from django.views import View
 
 from contact.forms import ContactModelForm
-from contact.models import Contact
+from contact.models import Contact, ContactSetting, Address
 
 
 class ContactView(View):
     def get(self,request):
+        contact_setting:ContactSetting = ContactSetting.objects.filter(is_active=True).last()
+        address:Address = Address.objects.filter(is_active=True)
         form = ContactModelForm()
         context = {
             'form': form,
+            'contact_setting': contact_setting,
+            'address': address,
         }
         return render(request, 'contact/contact.html', context)
 

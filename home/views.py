@@ -6,7 +6,6 @@ def home(request:HttpRequest):
 
 
 
-
 def header_component(request:HttpRequest):
     context = {}
     return render(request,'layout/header_component.html',context)

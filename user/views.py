@@ -1,10 +1,14 @@
 import time
 import sweetify
-from django.contrib.auth import login
+from django import dispatch
+from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils.crypto import get_random_string
+from django.utils.decorators import method_decorator
 from django.views import View
 
 from user.forms import RegisterForm, LoginForm
@@ -100,3 +104,13 @@ class ActiveUser(View):
         user.save()
         sweetify.success(request, 'User Activated !')
         return redirect(reverse('home'),request)
+
+
+
+@method_decorator([login_required], name= "dispatch")
+class LogOut(View):
+
+    def get(self, request: HttpRequest):
+        logout(request)
+        return redirect(reverse('home'))
+

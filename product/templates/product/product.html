@@ -133,10 +133,10 @@
                             <div class="product__details__cart__option">
                                 <div class="quantity">
                                     <div class="pro-qty"><span class="fa fa-angle-up dec qtybtn"></span>
-                                        <input type="text" value="1">
+                                        <input id="count" type="text" value="1">
                                         <span class="fa fa-angle-down inc qtybtn"></span></div>
                                 </div>
-                                <a href="#" class="primary-btn">add to cart</a>
+                                <a href="{% url 'add_to_card' slug=product.slug %}" class="primary-btn">add to cart</a>
                             </div>
                             <div class="product__details__btns__option">
                                 <a href="#"><i class="fa fa-heart"></i> add to wishlist</a>
@@ -211,7 +211,7 @@
                         </div>
                         <div class="product__item__text">
                             <h6>{{ related.short_description }}</h6>
-                            <a href="#" class="add-cart">+ Add To Cart</a>
+                            <a href="" class="add-cart">+ Add To Cart</a>
                             <div class="rating">
                                 <i class="fa fa-star-o"></i>
                                 <i class="fa fa-star-o"></i>

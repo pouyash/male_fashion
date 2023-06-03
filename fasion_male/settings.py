@@ -37,7 +37,11 @@ INSTALLED_APPS = [
     'blog',
     'contact',
     'about',
+    'order',
+    'polls',
 ]
+
+LOGIN_URL = '/user/login/'
 
 ########   Send Email Configuration From Mailtrap    ****************************
 

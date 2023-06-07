@@ -42,7 +42,7 @@ class AddToCardView(View):
             Order_detail.save()
         else:
             OrderDetail.objects.create(count=1, order=order, product=product, final_price=product.price * 1)
-
+        sweetify.success(request, 'Add To Card Successfully')
         # return redirect(reverse('product', kwargs={'slug':slug}))
         return redirect(request.META.get('HTTP_REFERER'))
 
@@ -94,9 +94,8 @@ def send_request(request):
 @login_required
 def verify(request):
     user = request.user
-    order = Order.objects.filter(user=user, is_paid=False).first()
+    order = Order.objects.filter(user=user,is_paid=False).first()
     amount = int(order.total_price())
-
     status = request.GET.get('Status')
     authority = request.GET['Authority']
     if status == 'OK':
@@ -104,6 +103,7 @@ def verify(request):
             "MerchantID": MERCHANT,
             "Amount": amount,
             "Authority": authority,
+            "Description": description,
         }
         data = json.dumps(data)
         # set content length by data
@@ -121,7 +121,7 @@ def verify(request):
             else:
                 sweetify.error(request,'Payment Unsuccessfully!')
                 return redirect(reverse('order'))
-        sweetify.error(request,'Payment Unsuccessfully!')
+        sweetify.error(request,'Payment Error!')
         return redirect(reverse('order'))
     sweetify.error(request,'Payment Not Done!')
     return redirect(reverse('order'))

@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'captcha',
 
     #INTERNAL APPS
+    'site_settings',
     'home',
     'product',
     'user',
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
     'about',
     'order',
     'polls',
+    'account',
 ]
 
 LOGIN_URL = '/user/login/'

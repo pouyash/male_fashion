@@ -51,6 +51,7 @@
                                 <a href="{% url 'login' %}">Login</a>
                                 <a href="{% url 'register' %}">register</a>
                             {% else %}
+                                <a href="{% url 'account_main' %}">Account</a>
                                 <a href="{% url 'logout' %}">Log out</a>
                             {% endif %}
                             <a href="#">FAQs</a>

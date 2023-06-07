@@ -22,12 +22,12 @@ class Order(models.Model):
                 total += od.product.price * od.count
         return total
 
-    def save(
-        self, force_insert=False, force_update=False, using=None, update_fields=None
-    ):
-        if self.is_paid == True:
-            self.order_detail.total_price = self.total_price()
-        return super(Order, self).save()
+    # def save(
+    #     self, force_insert=False, force_update=False, using=None, update_fields=None
+    # ):
+    #     if self.is_paid == True:
+    #         self.order_detail.total_price = self.total_price()
+    #     return super(Order, self).save()
 
     def __str__(self):
         return f'{self.user} + is paid: {self.is_paid}'

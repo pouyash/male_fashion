@@ -1,0 +1,48 @@
+{% extends 'account/main_parent.html' %}
+{% block title_nested %}
+    Account Blog
+{% endblock title_nested %}
+
+{% block context_nested %}
+    <a class="btn btn-primary m-2" href="{% url 'account_blogs_add' %}"> Add New Blog + </a>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">title</th>
+            <th scope="col">Short description</th>
+            <th scope="col">user</th>
+            <th scope="col">Active</th>
+            <th scope="col">Handle</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for blog in blogs %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ blog.title }}</td>
+                <td>{{ blog.short_description | truncatewords:20 }}</td>
+                <td>{{ blog.user }}</td>
+                <td>
+                    {% if blog.is_active %}
+                        <i class="fa fa-check-circle"></i>
+                    {% else %}
+                        <i class="fa fa-close"></i>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if request.user == blog.user %}
+                        <a class="btn btn-info" href="{% url 'account_blogs_edit' id=blog.id %}"><i class="fa fa-edit"></i></a>
+                        <a class="btn btn-danger" href="{% url 'account_blogs_delete' pk=blog.pk %}"><i class="fa fa-remove"></i></a>
+
+                    {% else %}
+                        You Cant Handle This Blog
+                    {% endif %}
+
+
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock context_nested %}

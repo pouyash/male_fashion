@@ -1,20 +1,22 @@
 <div class="col-md-3">
     <div class="list-group">
-
-
         <a href="{% url 'account_main' %}" class="list-group-item list-group-item-action
             {% if request.path == '/account/' %} active {% endif %}">
             Main Page
         </a>
         <a href="{% url 'change_password_email' %}"
-           class="list-group-item list-group-item-action {% if request.path == '/account/change_password/'%} active {% endif %}">
+           class="list-group-item list-group-item-action {% if request.path == '/account/change_password/' %} active {% endif %}">
             Change Password
         </a>
-        <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+        {% if request.user.role == 1 %}
+            <a href="{% url 'account_blogs' %}"
+               class="list-group-item list-group-item-action {% if request.path == '/account/blogs/' %}
+                active
+           {% endif %} ">
+                Blog
+            </a>
+        {% endif %}
         <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
         <a href="{% url 'logout' %}" class="list-group-item list-group-item-action">LogOut</a>
-
-
-
     </div>
 </div>

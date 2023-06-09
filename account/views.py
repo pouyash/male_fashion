@@ -5,12 +5,16 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.utils.crypto import get_random_string
 from django.utils.decorators import method_decorator
+from django.utils.text import slugify
 from django.views import View
+from django.views.generic import ListView, DeleteView
 
-from account.forms import ChangePasswordForm
+from account.forms import ChangePasswordForm, BlogForm
+from blog.models import Blog
+from blog.permissions import CanEditBlogPermission, BlogPermission
 from user.models import User
 from utils.email import send_email
 
@@ -72,3 +76,71 @@ class Change_password_post(View):
         }
         sweetify.error(request, 'Error Occur.')
         return render(request, 'account/change_password.html', context)
+
+
+# @method_decorator(login_required, name='dispatch')
+class BlogsListView(BlogPermission, ListView):
+    model = Blog
+    template_name = 'account/blog/blogs.html'
+    context_object_name = 'blogs'
+
+
+# @method_decorator(login_required, name='dispatch')
+class BlogAddView(BlogPermission, View):
+    def get(self, request:HttpRequest):
+        form = BlogForm()
+        context = {
+            'form': form,
+        }
+        return render(request, 'account/blog/add_blog.html', context)
+
+    def post(self, request:HttpRequest):
+        form = BlogForm(request.POST, request.FILES)
+        if form.is_valid():
+            blog = form.save(commit=False)
+            blog.user = request.user
+            blog.is_active = False
+            blog.slug = slugify(form.cleaned_data.get('title'))
+            blog.save()
+            sweetify.success(request, 'Create Successfully!')
+            return redirect(reverse('account_blogs'))
+        else:
+            sweetify.error(request, 'Error Occur.')
+            context = {
+                'form': form,
+            }
+            return render(request, 'account/blog/add_blog.html', context)
+
+
+class BlogEditView(CanEditBlogPermission, View):
+    def get(self, request, id):
+        blog = get_object_or_404(Blog, id=id)
+        form = BlogForm(instance=blog)
+
+        context = {
+            'form': form,
+        }
+        return render(request, 'account/blog/edit_blog.html', context)
+
+    def post(self, request, id):
+        blog = get_object_or_404(Blog, id=id)
+        form = BlogForm(request.POST, request.FILES, instance=blog)
+        if form.is_valid():
+            new_blog = form.save(commit=False)
+            new_blog.slug = slugify(form.cleaned_data.get('title'))
+            new_blog.save()
+            sweetify.success(request, 'Edit Successfully!')
+            return redirect(reverse('account_blogs'))
+        else:
+            sweetify.error(request, 'Error Occur.')
+            context = {
+                'form': form,
+            }
+            return render(request, 'account/blog/edit_blog.html', context)
+
+
+class DeleteBlogView(DeleteView):
+    model = Blog
+    success_url = reverse_lazy('account_blogs')
+    context_object_name = 'blog'
+    template_name = 'account/blog/delete_blog.html'

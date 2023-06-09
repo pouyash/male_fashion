@@ -29,6 +29,12 @@ INSTALLED_APPS = [
     'django_render_partial',
     'sweetify',
     'captcha',
+    'ckeditor',
+    'ckeditor_uploader',
+
+    # 'easy_thumbnails',
+    # 'filer',
+    # 'mptt',
 
     #INTERNAL APPS
     'site_settings',
@@ -42,6 +48,30 @@ INSTALLED_APPS = [
     'polls',
     'account',
 ]
+
+# Filer
+FILER_CANONICAL_URL = 'sharing/'
+
+
+# CKEditor Settings
+CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
+
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+CKEDITOR_IMAGE_BACKEND = "pillow"
+CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'
+# CKEDITOR_FILENAME_GENERATOR = BASE_DIR / 'utils/utils.get_filename'
+CKEDITOR_ALLOW_NONIMAGE_FILES = False
+
+CKEDITOR_CONFIGS = {
+    'default':
+        {
+            'toolbar': 'full',
+            'width': 'auto',
+            'extraPlugins': ','.join([
+                'codesnippet',
+            ]),
+        },
+}
 
 LOGIN_URL = '/user/login/'
 
@@ -136,9 +166,10 @@ USE_TZ = True
 
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [
-    BASE_DIR / 'static'
-]
+STATIC_ROOT = BASE_DIR / 'static'
+# STATICFILES_DIRS = [
+#     BASE_DIR / 'static'
+# ]
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR/'media'

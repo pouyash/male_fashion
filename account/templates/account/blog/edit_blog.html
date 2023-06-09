@@ -1,0 +1,17 @@
+{% extends 'account/main_parent.html' %}
+{% block title_nested %}
+    Account Blog
+{% endblock title_nested %}
+
+{% block context_nested %}
+    <a class="btn btn-primary m-2" href="{% url 'account_blogs' %}"> Back </a>
+
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {{ form.as_div }}
+        <br>
+        <input type="submit" value="Edit" class="btn btn-dark">
+    </form>
+
+{% endblock context_nested %}

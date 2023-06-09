@@ -6,8 +6,7 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
 
-def send_email(to , subject , context , template):
-
+def send_email(to, subject, context, template):
     try:
         html = render_to_string(template, context)
         plain_message = strip_tags(html)
